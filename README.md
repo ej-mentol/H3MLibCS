@@ -1,6 +1,7 @@
 # H3MLibCS
 
 A .NET 9 library for parsing Heroes of Might and Magic III map files (.h3m).
+Note: This library is better for quick exports than for precise map editing.
 
 ## Overview
 
