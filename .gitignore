@@ -16,4 +16,18 @@ obj/
 *.ml.json
 !README.md
 
+# Tools and Temp
 tools/
+temp_decompressed.bin
+barbarian_decompressed.bin
+*.bin
+*.log
+*.png
+
+# Python & ML
+__pycache__/
+*.pth
+*.pyc
+.ipynb_checkpoints/
+venv/
+.env

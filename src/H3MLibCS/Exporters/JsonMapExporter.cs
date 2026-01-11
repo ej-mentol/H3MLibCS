@@ -18,7 +18,7 @@ public class JsonMapExporter : IMapExporter
             Converters = { new JsonStringEnumConverter() }
         };
 
-        // Создаем динамический объект для экспорта, включая только то, что запрошено
+        // Create a dynamic object for export, including only requested sections
         var exportData = new Dictionary<string, object>();
 
         if (options.IncludedSections.HasFlag(MapSections.Header))
@@ -35,11 +35,11 @@ public class JsonMapExporter : IMapExporter
 
         if (options.IncludedSections.HasFlag(MapSections.Tiles))
         {
-            // Если подземка отключена, фильтруем тайлы
+            // If underground is disabled, filter tiles
             if (!options.IncludedSections.HasFlag(MapSections.Underground))
             {
                 int layerSize = (int)(map.BasicInfo.MapSize * map.BasicInfo.MapSize);
-                exportData["Tiles"] = map.Tiles.Take(layerSize); // Только первый слой
+                exportData["Tiles"] = map.Tiles.Take(layerSize); // First layer only
             }
             else
             {
@@ -49,9 +49,11 @@ public class JsonMapExporter : IMapExporter
 
         if (options.IncludedSections.HasFlag(MapSections.Objects))
         {
+            exportData["ObjectAttributes"] = map.ObjectAttributes;
+
             var objects = map.Objects.AsEnumerable();
             
-            // Применяем фильтр объектов (например, только Z=0)
+            // Apply object filter (e.g. Z=0 only)
             if (options.ObjectFilter != null)
                 objects = objects.Where(obj => options.ObjectFilter(obj));
             else if (!options.IncludedSections.HasFlag(MapSections.Underground))
